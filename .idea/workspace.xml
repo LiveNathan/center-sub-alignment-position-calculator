@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6b33f517-8e5e-4912-b500-e4f84c0aa565" name="Changes" comment="first commit">
-      <change afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+    <list default="true" id="6b33f517-8e5e-4912-b500-e4f84c0aa565" name="Changes" comment="Add HTML structure and script for position calculator&#10;&#10;This commit adds an HTML file which includes a basic structure for a position calculator. Elements for taking inputs and rendering the calculated result are added. There are labels and input fields for parameters like array span, ground to array bottom, audience head height, and audience width. The JavaScript in the file adds functionality to listen for key press events and prevent non-numeric values. Also, the logic for the actual position calculation is implemented in the calculate function.&#10;&#10;Also, made changes to the .idea/workspace.xml file to reflect the changes made in the project, including the addition of the new HTML File.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +49,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -61,7 +62,8 @@
       <option name="presentableId" value="Default" />
       <updated>1691970287478</updated>
       <workItem from="1691970288472" duration="32000" />
-      <workItem from="1691970418312" duration="1415000" />
+      <workItem from="1691970418312" duration="1450000" />
+      <workItem from="1692025673608" duration="7797000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
@@ -71,7 +73,15 @@
       <option name="project" value="LOCAL" />
       <updated>1691970313545</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add HTML structure and script for position calculator&#10;&#10;This commit adds an HTML file which includes a basic structure for a position calculator. Elements for taking inputs and rendering the calculated result are added. There are labels and input fields for parameters like array span, ground to array bottom, audience head height, and audience width. The JavaScript in the file adds functionality to listen for key press events and prevent non-numeric values. Also, the logic for the actual position calculation is implemented in the calculate function.&#10;&#10;Also, made changes to the .idea/workspace.xml file to reflect the changes made in the project, including the addition of the new HTML File.">
+      <option name="closed" value="true" />
+      <created>1691971860233</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1691971860233</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -79,6 +89,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="first commit" />
+    <MESSAGE value="Add HTML structure and script for position calculator&#10;&#10;This commit adds an HTML file which includes a basic structure for a position calculator. Elements for taking inputs and rendering the calculated result are added. There are labels and input fields for parameters like array span, ground to array bottom, audience head height, and audience width. The JavaScript in the file adds functionality to listen for key press events and prevent non-numeric values. Also, the logic for the actual position calculation is implemented in the calculate function.&#10;&#10;Also, made changes to the .idea/workspace.xml file to reflect the changes made in the project, including the addition of the new HTML File." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add HTML structure and script for position calculator&#10;&#10;This commit adds an HTML file which includes a basic structure for a position calculator. Elements for taking inputs and rendering the calculated result are added. There are labels and input fields for parameters like array span, ground to array bottom, audience head height, and audience width. The JavaScript in the file adds functionality to listen for key press events and prevent non-numeric values. Also, the logic for the actual position calculation is implemented in the calculate function.&#10;&#10;Also, made changes to the .idea/workspace.xml file to reflect the changes made in the project, including the addition of the new HTML File." />
   </component>
 </project>

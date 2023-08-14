@@ -4,51 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.2.0/svg.min.js"
+            integrity="sha512-EmfT33UCuNEdtd9zuhgQClh7gidfPpkp93WO8GEfAP3cLD++UM1AG9jsTUitCI9DH5nF72XaFePME92r767dHA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Title</title>
 </head>
 <body>
-<h1 class="text-3xl font-bold">Center Sub Alignment Position Calculator</h1>
-<div id="calculator-inputs">
-    <label for="a">A (array span)</label><input id="a" name="a" type="number" min="0">
-    <label for="c">C (ground to bottom of array)</label><input id="c" name="c" type="number" min="0">
-    <label for="e">E (audience head height)</label><input id="e" name="e" type="number" min="0">
-    <label for="audience-width">Audience Width</label><input id="audience-width" min="0" type="number">
+<div id="calculator" class="bg-white p-6 max-w-md mx-auto rounded-lg shadow-md">
+    <form id="calcForm" class="flex flex-col">
+        <label for="a" class="text-red-500 font-bold mb-2">A (array span)</label><input id="a" name="a" type="number"
+                                                                                        min="0.1" step="0.01" required
+                                                                                        class="border border-red-500 p-2 rounded-lg mb-4">
+        <label for="b" class="text-blue-500 font-bold mb-2">B (ground to bottom of array)</label><input id="b" name="c"
+                                                                                                        type="number"
+                                                                                                        min="0.1"
+                                                                                                        step="0.01"
+                                                                                                        required
+                                                                                                        class="border border-blue-500 p-2 rounded-lg mb-4">
+        <label for="c" class="text-green-500 font-bold mb-2">C (audience head height)</label><input id="c" name="e"
+                                                                                                    type="number"
+                                                                                                    min="0.1"
+                                                                                                    step="0.01" required
+                                                                                                    class="border border-green-500 p-2 rounded-lg mb-4">
+        <label for="d" class="text-yellow-500 font-bold mb-2">D (audience width)</label><input id="d"
+                                                                                               name="audience-width"
+                                                                                               type="number" min="0.1"
+                                                                                               step="0.01" required
+                                                                                               class="border border-yellow-500 p-2 rounded-lg mb-4">
+        <button type="submit" class="py-2 px-4 text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-700">
+            Calculate
+        </button>
+    </form>
+
+    <p id="result" class="mt-4 text-center text-lg text-blue-500"></p>
+
+    <div id="drawing-container" class="relative aspect-video rounded-lg border">
+        <svg id="drawing" viewBox="0 0 160 90" xmlns="http://www.w3.org/2000/svg" class="h-full w-full"></svg>
+    </div>
 </div>
-<p id="result"></p>
 
 <script>
     const result = document.querySelector('#result');
     const aInput = document.querySelector('#a');
+    const bInput = document.querySelector('#b');
     const cInput = document.querySelector('#c');
-    const eInput = document.querySelector('#e');
-    const audienceWidthInput = document.querySelector('#audience-width');
-    const calculatorInput = document.querySelector('#calculator-inputs');
-    calculatorInput.addEventListener('input', calculate)
+    const dInput = document.querySelector('#d');
+    const calcForm = document.querySelector('#calcForm');
+
+    calcForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        calculate();
+    })
 
     function calculate() {
         const aSide = Number(aInput.value);
+        const bSide = Number(bInput.value);
         const cSide = Number(cInput.value);
-        const eSide = Number(eInput.value);
-        const audienceWidth = Number(audienceWidthInput.value);
+        const dSide = Number(dInput.value);
 
-        let perpendicular = (aSide / 2) + (cSide - eSide);
-        let base = audienceWidth / 2;
-        let hypotenuse = Math.sqrt((perpendicular ** 2) + (base ** 2));
-        let halfHypotenuse = hypotenuse / 2;
-        let acuteAngle = Math.atan(perpendicular / halfHypotenuse);  // Radians
-        let H2 = halfHypotenuse / Math.cos(acuteAngle);
-
-
-
+        if (bSide > 0 && dSide > 0) {
+            let perpendicular = (aSide / 2) + (bSide);
+            let base = dSide / 2;
+            let acuteAngle = Math.atan(perpendicular / base);  // Radians
+            let hypotenuse = Math.sqrt((perpendicular ** 2) + (base ** 2));
+            let halfHypotenuse = hypotenuse / 2;
+            let H2 = halfHypotenuse / Math.cos(acuteAngle);
+            let O3 = Math.tan(acuteAngle) * cSide;
+            let centerLine = H2 - O3;
+            result.innerText = "Distance from audience center = " + centerLine.toFixed(2);
+        } else {
+            result.innerText = '';
+        }
     }
 
-    document.querySelectorAll('input[type="number"]').forEach(function (input) {
-        input.addEventListener('keypress', function (evt) {
-            const charCode = (evt.which) ? evt.which : evt.keyCode;
-            if (charCode !== 46 && charCode > 31 && (charCode < 48 || charCode > 57))
-                evt.preventDefault();
-        });
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let draw = SVG().addTo('#drawing').size('100%', '100%');
+        let rectArray = draw.rect(18, 30).stroke('#414141').fill('#a2a2a2').move(0.1, 0.04);
     });
+
 </script>
+
 </body>
 </html>
