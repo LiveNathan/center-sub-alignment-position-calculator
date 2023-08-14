@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Title</title>
+</head>
+<body>
+<h1 class="text-3xl font-bold">Center Sub Alignment Position Calculator</h1>
+<div id="calculator-inputs">
+    <label for="a">A (array span)</label><input id="a" name="a" type="number" min="0">
+    <label for="c">C (ground to bottom of array)</label><input id="c" name="c" type="number" min="0">
+    <label for="e">E (audience head height)</label><input id="e" name="e" type="number" min="0">
+    <label for="audience-width">Audience Width</label><input id="audience-width" min="0" type="number">
+</div>
+<p id="result"></p>
+
+<script>
+    const result = document.querySelector('#result');
+    const aInput = document.querySelector('#a');
+    const cInput = document.querySelector('#c');
+    const eInput = document.querySelector('#e');
+    const audienceWidthInput = document.querySelector('#audience-width');
+    const calculatorInput = document.querySelector('#calculator-inputs');
+    calculatorInput.addEventListener('input', calculate)
+
+    function calculate() {
+        const aSide = Number(aInput.value);
+        const cSide = Number(cInput.value);
+        const eSide = Number(eInput.value);
+        const audienceWidth = Number(audienceWidthInput.value);
+
+        let perpendicular = (aSide / 2) + (cSide - eSide);
+        let base = audienceWidth / 2;
+        let hypotenuse = Math.sqrt((perpendicular ** 2) + (base ** 2));
+        let halfHypotenuse = hypotenuse / 2;
+        let acuteAngle = Math.atan(perpendicular / halfHypotenuse);  // Radians
+        let H2 = halfHypotenuse / Math.cos(acuteAngle);
+
+
+
+    }
+
+    document.querySelectorAll('input[type="number"]').forEach(function (input) {
+        input.addEventListener('keypress', function (evt) {
+            const charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode !== 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                evt.preventDefault();
+        });
+    });
+</script>
+</body>
+</html>
