@@ -15,12 +15,13 @@
         <label for="a" class="text-red-500 font-bold mb-2">A (array span)</label><input id="a" name="a" type="number"
                                                                                         min="0.1" step="0.01" required
                                                                                         class="border border-red-500 p-2 rounded-lg mb-4">
-        <label for="b" class="text-blue-500 font-bold mb-2">B (ground to bottom of array)</label><input id="b" name="c"
-                                                                                                        type="number"
-                                                                                                        min="0.1"
-                                                                                                        step="0.01"
-                                                                                                        required
-                                                                                                        class="border border-blue-500 p-2 rounded-lg mb-4">
+        <label for="b" class="text-indigo-500 font-bold mb-2">B (ground to bottom of array)</label><input id="b"
+                                                                                                          name="c"
+                                                                                                          type="number"
+                                                                                                          min="0.1"
+                                                                                                          step="0.01"
+                                                                                                          required
+                                                                                                          class="border border-indigo-500 p-2 rounded-lg mb-4">
         <label for="c" class="text-green-500 font-bold mb-2">C (audience head height)</label><input id="c" name="e"
                                                                                                     type="number"
                                                                                                     min="0.1"
@@ -51,6 +52,8 @@
     const dInput = document.querySelector('#d');
     const calcForm = document.querySelector('#calcForm');
 
+    let draw;
+
     calcForm.addEventListener('submit', function (event) {
         event.preventDefault();
         calculate();
@@ -63,24 +66,132 @@
         const dSide = Number(dInput.value);
 
         if (bSide > 0 && dSide > 0) {
-            let perpendicular = (aSide / 2) + (bSide);
-            let base = dSide / 2;
-            let acuteAngle = Math.atan(perpendicular / base);  // Radians
-            let hypotenuse = Math.sqrt((perpendicular ** 2) + (base ** 2));
-            let halfHypotenuse = hypotenuse / 2;
-            let H2 = halfHypotenuse / Math.cos(acuteAngle);
-            let O3 = Math.tan(acuteAngle) * cSide;
-            let centerLine = H2 - O3;
+            const perpendicular = (aSide / 2) + (bSide);
+            const base = dSide / 2;
+            const acuteAngle = Math.atan(perpendicular / base);  // Radians
+            const hypotenuse = Math.sqrt((perpendicular ** 2) + (base ** 2));
+            const halfHypotenuse = hypotenuse / 2;
+            const H2 = halfHypotenuse / Math.cos(acuteAngle);
+            const O3 = Math.tan(acuteAngle) * cSide;
+            const centerLine = H2 - O3;
             result.innerText = "Distance from audience center = " + centerLine.toFixed(2);
+            drawMicStandAndArrow();
         } else {
             result.innerText = '';
         }
     }
 
     document.addEventListener('DOMContentLoaded', (event) => {
-        let draw = SVG().addTo('#drawing').size('100%', '100%');
-        let rectArray = draw.rect(18, 30).stroke('#414141').fill('#a2a2a2').move(0.1, 0.04);
+        const draw = SVG().addTo('#drawing').size('100%', '100%');
+        const lineCrossH = draw.line(0, 45, 160, 45).stroke({color: '#f5f5f5', width: 0.5});
+        const lineCrossV = draw.line(80, 0, 80, 90).stroke({color: '#f5f5f5', width: 0.5});
+        const rectArrayL = draw.rect(16, 28).stroke('#414141').fill('#a2a2a2').move(1, 1);
+        const rectArrayR = draw.rect(16, 28).stroke('#414141').fill('#a2a2a2').move(1, 1).flip('x', {x: 80, y: 45});
+        const rectSub = draw.rect(28, 16).stroke('#414141').fill('#a2a2a2').center(80, 81);
+        const lineArraySpan = draw.line(21, 1, 21, 29).stroke('#f00');
+        const lineArraySpanTop = draw.line(19, 1, 23, 1).stroke('#f00');
+        const lineArraySpanBot = draw.line(19, 29, 23, 29).stroke('#f00');
+        const rectABackground = draw.rect(5, 7).move(18, 11).fill('#fff');
+        const textArrayA = draw.text('A').move(16, 5).fill('#f00').scale(0.5);
+        const lineD = draw.line(2, 59, 158, 59).stroke('#F59E0B');
+        const lineDTop = draw.line(2, 57, 2, 61).stroke('#F59E0B');
+        const lineDBot = draw.line(158, 57, 158, 61).stroke('#F59E0B');
+        const rectDBackground = draw.rect(7, 7.5).move(77, 55).fill('#fff');
+        const textD = draw.text('D').move(75, 49.5).fill('#F59E0B').scale(0.5);
+        const lineB = draw.line(9, 31, 9, 89).stroke('#6366F1');
+        const lineBTop = draw.line(7, 31, 11, 31).stroke('#6366F1');
+        const lineBBot = draw.line(7, 89, 11, 89).stroke('#6366F1');
+        const rectBBackground = draw.rect(6, 7.5).move(6, 56).fill('#fff');
+        const textB = draw.text('B').move(4, 50).fill('#6366F1').scale(0.5);
+        const lineC = draw.line(140, 59, 140, 89).stroke('#10B981');
+        const lineCTop = draw.line(138, 59, 142, 59).stroke('#10B981');
+        const lineCBot = draw.line(138, 89, 142, 89).stroke('#10B981');
+        const rectCBackground = draw.rect(5, 7.5).move(138, 71).fill('#fff');
+        const textC = draw.text('C').move(134.5, 65).fill('#10B981').scale(0.5);
+
+        // Stick figure dimensions
+        const height = 35;
+        const headRadius = height * 0.17;
+        const bodyHeight = height * 0.4;
+        const limbLength = height * 0.2;
+
+        // Stick figure positions
+        const stickFigureBase = lineC.attr("y2");
+        const headCenter = [130, stickFigureBase - height + headRadius]; // A bit to the left
+        const bodyTop = [headCenter[0], headCenter[1] + headRadius];
+        const bodyBot = [bodyTop[0], bodyTop[1] + bodyHeight];
+
+        // Stick figure elements
+        const head = draw.circle(headRadius * 2).center(...headCenter).fill('#a2a2a2');
+        const body = draw.line(bodyTop[0], bodyTop[1], bodyBot[0], bodyBot[1]).stroke({color: '#a2a2a2', width: 2});
+        const limbs = [
+            draw.line(bodyTop[0], bodyTop[1], bodyTop[0] - limbLength, bodyTop[1] + limbLength).stroke({
+                color: '#a2a2a2',
+                width: 2
+            }),
+            draw.line(bodyTop[0], bodyTop[1], bodyTop[0] + limbLength, bodyTop[1] + limbLength).stroke({
+                color: '#a2a2a2',
+                width: 2
+            }),
+            draw.line(bodyBot[0], bodyBot[1], bodyBot[0] - limbLength, bodyBot[1] + limbLength).stroke({
+                color: '#a2a2a2',
+                width: 2
+            }),
+            draw.line(bodyBot[0], bodyBot[1], bodyBot[0] + limbLength, bodyBot[1] + limbLength).stroke({
+                color: '#a2a2a2',
+                width: 2
+            })
+        ];
+
+
+
     });
+
+    function drawMicStandAndArrow() {
+        // Result arrow
+        const lineResult = draw.line(45, 59, 80, 59).stroke({color: '#3B82F6', width: 3});
+        const lineResultArrow = draw.line(45, 59, 50, 55).stroke({color: '#3B82F6', width: 3});
+        const lineResultArrowBot = draw.line(45, 59, 50, 63).stroke({color: '#3B82F6', width: 3});
+
+        // Stick figure dimensions
+        const height = 35;
+        const headRadius = height * 0.17;
+        const bodyHeight = height * 0.4;
+        const limbLength = height * 0.2;
+
+        // Stick figure positions
+        const stickFigureBase = lineC.attr("y2");
+        const headCenter = [130, stickFigureBase - height + headRadius]; // A bit to the left
+        const bodyTop = [headCenter[0], headCenter[1] + headRadius];
+        const bodyBot = [bodyTop[0], bodyTop[1] + bodyHeight];
+
+        // Microphone on stand
+        const microphoneRadius = 2;
+        const microphoneBase = lineResult.attr("x1");
+        const microphoneCenter = [microphoneBase - 4, 59]; // Positioned to the left of the line result arrow
+        const microphoneStandHeight = stickFigureBase - microphoneCenter[1] - microphoneRadius;
+
+        // Microphone elements
+        const microphone = draw.circle(microphoneRadius * 2).center(...microphoneCenter).fill('#000000');
+        const microphoneStand = draw.line(microphoneCenter[0], microphoneCenter[1] + microphoneRadius, microphoneCenter[0], microphoneCenter[1] + microphoneRadius + microphoneStandHeight).stroke({
+            color: '#3B82F6',
+            width: 2
+        });
+
+        // Hide these elements initially
+        lineResult.hide();
+        lineResultArrow.hide();
+        lineResultArrowBot.hide();
+        microphone.hide();
+        microphoneStand.hide();
+
+        // Show these elements
+        lineResult.show();
+        lineResultArrow.show();
+        lineResultArrowBot.show();
+        microphone.show();
+        microphoneStand.show();
+    }
 
 </script>
 
